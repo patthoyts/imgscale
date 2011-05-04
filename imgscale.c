@@ -148,6 +148,7 @@ Bilinear(Tk_PhotoImageBlock *srcPtr, Tk_PhotoImageBlock *dstPtr, double newalpha
                         val += CH(srcPtr, ix, iy, c) * yf * xf;
                     }
                 }
+                if (c == dstPtr->offset[3]) val *= newalpha;
                 CH(dstPtr, x, y, c) = (unsigned char)val;
             }
         }
