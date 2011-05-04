@@ -4,6 +4,9 @@ DEBUG = 0
 !ifndef TCLVER
 TCLVER=8.5
 !endif
+!ifndef TCLDIR
+TCLDIR=\opt\tcl$(TCLVER)
+!endif
 
 !ifndef MACHINE
 !ifndef CPU
@@ -27,19 +30,15 @@ LDFLAGS =-debug
 CFLAGS =-DTCL_VERSION_MINIMUM=\"$(TCLVER)\"
 V=$(TCLVER:.=)
 
-!if "$(MACHINE)" == "AMD64"
+INC     =-I. -I$(TCLDIR)\include
+LIBS    =-libpath:$(TCLDIR)\lib tclstub$V.lib tkstub$V.lib
 
+!if "$(MACHINE)" == "AMD64"
 OUT_DIR  =win32-x86_64
 LDFLAGS = $(LDFLAGS) -machine:AMD64
-INC     =-I. -I\opt\tcl85.amd64\include
-LIBS    =-libpath:\opt\tcl85.amd64\lib tclstub85.lib tkstub85.lib bufferoverflowU.lib
-
+LIBS    = $(LIBS) bufferoverflowU.lib
 !else
-
 OUT_DIR =win32-ix86
-INC     =-I. -I\opt\tcl$(TCLVER)\include
-LIBS    =-libpath:\opt\tcl$(TCLVER)\lib tclstub$V.lib tkstub$V.lib
-
 !endif
 
 TMP_DIR = $(OUT_DIR)
